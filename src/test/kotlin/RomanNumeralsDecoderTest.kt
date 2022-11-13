@@ -39,9 +39,21 @@ class RomanNumeralsDecoderTest {
     }
 
     @Test
-    fun `should compute tens with units`() {
+    fun `should compute tens with units addition`() {
         assertEquals(15, decode("XV"))
+        assertEquals(51, decode("LI"))
+        assertEquals(28, decode("XXVIII"))
+    }
+
+    @Test
+    fun `should compute tens with units substraction`() {
         assertEquals(19, decode("XIX"))
+        assertEquals(99, decode("XCIX"))
+    }
+
+    @Test
+    fun `should compute largest number possible`() {
+        assertEquals(3999, decode("MMMCMXCIX"))
     }
 
     @Test

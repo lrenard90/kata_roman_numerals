@@ -42,34 +42,57 @@ class RomanNumeralsDecoder {
         Pair("MMM", 3000)
     )
 
-    fun decode(string: String): Int {
-        if (string.isBlank()) {
-            return 0;
-        }
-
-        if (string == "XXI") {
-            return 21
-        }
-        if (string == "MMVIII") {
-            return 2008
-        }
-        if (string == "MDCLXVI") {
-            return 1666
-        }
-
-        if (ROMAN_THOUSANDS.containsKey(string)) {
-            return ROMAN_THOUSANDS.getValue(string)
-        }
-
-        if (ROMAN_HUNDREDS.containsKey(string)) {
-            return ROMAN_HUNDREDS.getValue(string)
-        }
-
-        if (ROMAN_TENS.containsKey(string)) {
-            return ROMAN_TENS.getValue(string)
-        }
-
-        return ROMAN_UNITS.getValue(string);
+    fun decode(romanNumberString: String): Int {
+        val romanStringDecomposed: List<RomanIndividualNumber> = decomposeRomanNumerals(romanNumberString);
+        return romanStringDecomposed.sumOf { romanIndividualNumber -> romanIndividualNumber.intValue }
     }
+
+    private fun decomposeRomanNumerals(romanNumberString: String): List<RomanIndividualNumber> {
+        val romanNumberPart: RomanIndividualNumber? = findRomanIndividualNumber(romanNumberString)
+
+        if (romanNumberPart == null) {
+            return emptyList();
+        }
+
+        val romanNumberParts = mutableListOf(romanNumberPart)
+        val remainingPartOfString: String = romanNumberString.removePrefix(romanNumberPart.stringValue)
+        romanNumberParts.addAll(decomposeRomanNumerals(remainingPartOfString))
+        return romanNumberParts;
+    }
+
+    private fun findRomanIndividualNumber(romanNumberString: String): RomanIndividualNumber? {
+        val romanThousandsPart: RomanIndividualNumber? =
+            findRomanIndividualNumberOfCategory(romanNumberString, ROMAN_THOUSANDS)
+        if (romanThousandsPart != null) {
+            return romanThousandsPart;
+        }
+
+        val romanHundredsPart: RomanIndividualNumber? =
+            findRomanIndividualNumberOfCategory(romanNumberString, ROMAN_HUNDREDS)
+        if (romanHundredsPart != null) {
+            return romanHundredsPart;
+        }
+
+        val romanTensPart: RomanIndividualNumber? = findRomanIndividualNumberOfCategory(romanNumberString, ROMAN_TENS)
+        if (romanTensPart != null) {
+            return romanTensPart;
+        }
+        val romanUnitsPart: RomanIndividualNumber? = findRomanIndividualNumberOfCategory(romanNumberString, ROMAN_UNITS)
+        if (romanUnitsPart != null) {
+            return romanUnitsPart;
+        }
+
+        return null;
+    }
+
+    private fun findRomanIndividualNumberOfCategory(
+        romanNumberString: String,
+        romanAvailableParts: Map<String, Int>
+    ): RomanIndividualNumber? =
+        romanAvailableParts
+            .toSortedMap(reverseOrder())
+            .filter { stringIntEntry -> romanNumberString.startsWith(stringIntEntry.key) }
+            .map { stringIntEntry -> RomanIndividualNumber(stringIntEntry.key, stringIntEntry.value) }
+            .firstOrNull()
 
 }
