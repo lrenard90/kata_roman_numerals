@@ -1,3 +1,3 @@
-data class RomanIndividualNumber(val stringValue: String, val intValue: Int) {
+data class RomanNumeral(val stringValue: String, val intValue: Int) {
 
 }
