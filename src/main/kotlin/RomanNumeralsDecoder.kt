@@ -42,6 +42,9 @@ class RomanNumeralsDecoder {
         Pair("MMM", 3000)
     )
 
+    private val ROMAN_NUMERALS_ORDERED_BY_VALUE_DESC = (ROMAN_THOUSANDS + ROMAN_HUNDREDS + ROMAN_TENS + ROMAN_UNITS)
+        .toSortedMap(reverseOrder());
+
     fun decode(romanNumberString: String): Int {
         val romanStringDecomposed: List<RomanIndividualNumber> = decomposeRomanNumerals(romanNumberString);
         return romanStringDecomposed.sumOf { romanIndividualNumber -> romanIndividualNumber.intValue }
@@ -60,37 +63,10 @@ class RomanNumeralsDecoder {
         return romanNumberParts;
     }
 
-    private fun findRomanIndividualNumber(romanNumberString: String): RomanIndividualNumber? {
-        val romanThousandsPart: RomanIndividualNumber? =
-            findRomanIndividualNumberOfCategory(romanNumberString, ROMAN_THOUSANDS)
-        if (romanThousandsPart != null) {
-            return romanThousandsPart;
-        }
-
-        val romanHundredsPart: RomanIndividualNumber? =
-            findRomanIndividualNumberOfCategory(romanNumberString, ROMAN_HUNDREDS)
-        if (romanHundredsPart != null) {
-            return romanHundredsPart;
-        }
-
-        val romanTensPart: RomanIndividualNumber? = findRomanIndividualNumberOfCategory(romanNumberString, ROMAN_TENS)
-        if (romanTensPart != null) {
-            return romanTensPart;
-        }
-        val romanUnitsPart: RomanIndividualNumber? = findRomanIndividualNumberOfCategory(romanNumberString, ROMAN_UNITS)
-        if (romanUnitsPart != null) {
-            return romanUnitsPart;
-        }
-
-        return null;
-    }
-
-    private fun findRomanIndividualNumberOfCategory(
-        romanNumberString: String,
-        romanAvailableParts: Map<String, Int>
+    private fun findRomanIndividualNumber(
+        romanNumberString: String
     ): RomanIndividualNumber? =
-        romanAvailableParts
-            .toSortedMap(reverseOrder())
+        this.ROMAN_NUMERALS_ORDERED_BY_VALUE_DESC
             .filter { stringIntEntry -> romanNumberString.startsWith(stringIntEntry.key) }
             .map { stringIntEntry -> RomanIndividualNumber(stringIntEntry.key, stringIntEntry.value) }
             .firstOrNull()
