@@ -21,9 +21,8 @@ class RomanNumeralsDecoder {
     private fun findRomanIndividualNumber(
         romanStringNumerals: String
     ): RomanNumeral? =
-        RomanNumerals.ROMAN_NUMERALS_ORDERED_BY_VALUE_DESC
-            .filter { romanNumeralPair -> romanStringNumerals.startsWith(romanNumeralPair.key) }
-            .map { romanNumeralPair -> RomanNumeral(romanNumeralPair.key, romanNumeralPair.value) }
-            .firstOrNull()
+        RomanNumerals.ROMAN_NUMERALS_ORDERED_BY_INT_VALUE_DESC.firstOrNull { romanNumeral ->
+            romanStringNumerals.startsWith(romanNumeral.stringValue)
+        }
 
 }

@@ -1,50 +1,50 @@
 class RomanNumerals {
 
     companion object {
-        private val ROMAN_UNITS: Map<String, Int> = mapOf(
-            Pair("I", 1),
-            Pair("II", 2),
-            Pair("III", 3),
-            Pair("IV", 4),
-            Pair("V", 5),
-            Pair("VI", 6),
-            Pair("VII", 7),
-            Pair("VIII", 8),
-            Pair("IX", 9)
+        private val ROMAN_UNITS: List<RomanNumeral> = listOf(
+            RomanNumeral("I", 1),
+            RomanNumeral("II", 2),
+            RomanNumeral("III", 3),
+            RomanNumeral("IV", 4),
+            RomanNumeral("V", 5),
+            RomanNumeral("VI", 6),
+            RomanNumeral("VII", 7),
+            RomanNumeral("VIII", 8),
+            RomanNumeral("IX", 9)
         )
 
-        private val ROMAN_TENS: Map<String, Int> = mapOf(
-            Pair("X", 10),
-            Pair("XX", 20),
-            Pair("XXX", 30),
-            Pair("XL", 40),
-            Pair("L", 50),
-            Pair("LX", 60),
-            Pair("LXX", 70),
-            Pair("LXXX", 80),
-            Pair("XC", 90)
+        private val ROMAN_TENS: List<RomanNumeral> = listOf(
+            RomanNumeral("X", 10),
+            RomanNumeral("XX", 20),
+            RomanNumeral("XXX", 30),
+            RomanNumeral("XL", 40),
+            RomanNumeral("L", 50),
+            RomanNumeral("LX", 60),
+            RomanNumeral("LXX", 70),
+            RomanNumeral("LXXX", 80),
+            RomanNumeral("XC", 90)
         )
 
-        private val ROMAN_HUNDREDS: Map<String, Int> = mapOf(
-            Pair("C", 100),
-            Pair("CC", 200),
-            Pair("CCC", 300),
-            Pair("CD", 400),
-            Pair("D", 500),
-            Pair("DC", 600),
-            Pair("DCC", 700),
-            Pair("DCCC", 800),
-            Pair("CM", 900)
+        private val ROMAN_HUNDREDS: List<RomanNumeral> = listOf(
+            RomanNumeral("C", 100),
+            RomanNumeral("CC", 200),
+            RomanNumeral("CCC", 300),
+            RomanNumeral("CD", 400),
+            RomanNumeral("D", 500),
+            RomanNumeral("DC", 600),
+            RomanNumeral("DCC", 700),
+            RomanNumeral("DCCC", 800),
+            RomanNumeral("CM", 900)
         )
 
-        private val ROMAN_THOUSANDS: Map<String, Int> = mapOf(
-            Pair("M", 1000),
-            Pair("MM", 2000),
-            Pair("MMM", 3000)
+        private val ROMAN_THOUSANDS: List<RomanNumeral> = listOf(
+            RomanNumeral("M", 1000),
+            RomanNumeral("MM", 2000),
+            RomanNumeral("MMM", 3000)
         )
 
-        val ROMAN_NUMERALS_ORDERED_BY_VALUE_DESC: Map<String, Int> = (ROMAN_THOUSANDS + ROMAN_HUNDREDS + ROMAN_TENS + ROMAN_UNITS)
-            .toSortedMap(reverseOrder());
+        val ROMAN_NUMERALS_ORDERED_BY_INT_VALUE_DESC: List<RomanNumeral> = (ROMAN_THOUSANDS + ROMAN_HUNDREDS + ROMAN_TENS + ROMAN_UNITS)
+            .sortedByDescending { romanNumeral -> romanNumeral.intValue }
     }
 
 }
